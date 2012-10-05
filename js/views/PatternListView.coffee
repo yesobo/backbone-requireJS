@@ -1,22 +1,20 @@
 define(
 	['backbone','views/PatternView'], (Backbone, PatternView) ->
+		separatorTmpl = _.template '<li class="nav-header"><%= category %></li>'
 		View = Backbone.View.extend 
 			tagName: 'ul'
-			className: 'patternList'
+			className: 'nav nav-list'
 			initialize: ->
 				@collection.on 'reset', @render, this
 				@collection.on 'add', @add, this
 			render: ->
-				#@$el.empty().hide()
-				#@collection.each @add, this
-				console.log 'collection:'
-				console.log @collection
+				currentCategory = null;
 				@collection.each (pattern) =>
-					console.log 'creando new pattern con model='
-					console.log pattern
+					patternObj = pattern.toJSON()
+					if patternObj.category != currentCategory
+						@$el.append separatorTmpl(patternObj)
+						currentCategory = patternObj.category
 					child = new PatternView {model: pattern}
-					console.log 'añadiendo patternview a'
-					console.log @$el
 					@$el.append(child.render().$el).show()
 				this
 		View

@@ -2,27 +2,29 @@
 (function() {
 
   define(['backbone', 'views/PatternView'], function(Backbone, PatternView) {
-    var View;
+    var View, separatorTmpl;
+    separatorTmpl = _.template('<li class="nav-header"><%= category %></li>');
     View = Backbone.View.extend({
       tagName: 'ul',
-      className: 'patternList',
+      className: 'nav nav-list',
       initialize: function() {
         this.collection.on('reset', this.render, this);
         return this.collection.on('add', this.add, this);
       },
       render: function() {
-        var _this = this;
-        console.log('collection:');
-        console.log(this.collection);
+        var currentCategory,
+          _this = this;
+        currentCategory = null;
         this.collection.each(function(pattern) {
-          var child;
-          console.log('creando new pattern con model=');
-          console.log(pattern);
+          var child, patternObj;
+          patternObj = pattern.toJSON();
+          if (patternObj.category !== currentCategory) {
+            _this.$el.append(separatorTmpl(patternObj));
+            currentCategory = patternObj.category;
+          }
           child = new PatternView({
             model: pattern
           });
-          console.log('añadiendo patternview a');
-          console.log(_this.$el);
           return _this.$el.append(child.render().$el).show();
         });
         return this;

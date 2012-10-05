@@ -1,12 +1,10 @@
-define(['backbone'], (Backbone) ->
-	template  = _.template '<p><%= name %></p>'
+define(['backbone', 'text!views/templates/pattern.html'], (Backbone, templ) ->
+	template  = _.template templ
 	View = Backbone.View.extend(
 		tagName: 'li'
 		className: 'pattern'
 		initilize: ->
 		render: ->
-			console.log  'rendering patternview'
-			console.log @model
 			@$el.html template(@model.toJSON())
 			this
 	)
