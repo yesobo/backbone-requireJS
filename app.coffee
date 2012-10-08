@@ -4,7 +4,6 @@ Paths section
 require.config(
 	baseUrl: "js"
 	paths:
-		bootstrap: 'lib/bootstrap' 
 		jquery: 'lib/jquery-1.8.2'
 		underscore: 'lib/underscore-1.3.3'
 		backbone: 'lib/backbone-0.9.2'
